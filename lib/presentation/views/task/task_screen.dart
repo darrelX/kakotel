@@ -5,6 +5,7 @@ import 'package:kakotel_test/domain/entities/task_entity.dart';
 import 'package:kakotel_test/domain/repositories/task_repository.dart';
 import 'package:kakotel_test/domain/repositories/task_repository_impl.dart';
 import 'package:kakotel_test/presentation/blocs/cubit/task_cubit.dart';
+import 'package:kakotel_test/service_locator.dart';
 
 
 @RoutePage()
@@ -14,7 +15,7 @@ class TaskScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => TaskCubit(TaskRepositoryImpl()),
+      create: (_) => getIt<TaskCubit>(),
       child: Scaffold(
         appBar: AppBar(title: Text("Gestionnaire de tâches")),
         body: Column(
