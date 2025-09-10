@@ -1,11 +1,12 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:kakotel_test/domain/entities/task_entity.dart';
+import 'package:kakotel_test/domain/repositories/task_repository.dart';
 
 part 'task_state.dart';
 
 class TaskCubit extends Cubit<TaskState> {
-  final TaskEntityRepository repository;
+  final TaskRepository repository;
 
   TaskCubit(this.repository) : super(TaskState(tasks: [])) {
     loadTasks();

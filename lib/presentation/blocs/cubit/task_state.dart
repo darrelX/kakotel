@@ -27,7 +27,7 @@ class TaskState {
           filterPriority == null || t.priority == filterPriority;
       return statusMatch && priorityMatch;
     }).toList()
-      ..sort((a, b) => b.priority.index.compareTo(a.priority.index));
+      ..sort((a, b) => b.priority!.index.compareTo(a.priority!.index));
   }
 }
 

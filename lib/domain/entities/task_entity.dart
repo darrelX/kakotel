@@ -2,12 +2,12 @@ enum TaskEntityStatus { todo, inProgress, done }
 enum TaskEntityPriority { high, medium, low }
 
 class TaskEntity {
-  final String id;
-  final String title;
-  final String description;
-  final TaskEntityStatus status;
-  final TaskEntityPriority priority;
-  final DateTime createdAt;
+  final String? id;
+  final String? title;
+  final String? description;
+  final TaskEntityStatus? status;
+  final TaskEntityPriority? priority;
+  final DateTime? createdAt;
 
   TaskEntity({
     required this.id,
@@ -31,6 +31,28 @@ class TaskEntity {
       status: status ?? this.status,
       priority: priority ?? this.priority,
       createdAt: createdAt,
+    );
+  }
+
+    // Sérialisation JSON
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'title': title,
+        'description': description,
+        'status': status?.index,
+        'priority': priority?.index,
+        'createdAt': createdAt?.toIso8601String(),
+      };
+
+  // Désérialisation JSON
+  factory TaskEntity.fromJson(Map<String, dynamic> json) {
+    return TaskEntity(
+      id: json['id'],
+      title: json['title'],
+      description: json['description'],
+      status: TaskEntityStatus.values[json['status']],
+      priority: TaskEntityPriority.values[json['priority']],
+      createdAt: DateTime.parse(json['createdAt']),
     );
   }
 }

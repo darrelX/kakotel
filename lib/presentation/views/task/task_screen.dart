@@ -1,6 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kakotel_test/domain/entities/task_entity.dart';
+import 'package:kakotel_test/domain/repositories/task_repository.dart';
+import 'package:kakotel_test/presentation/blocs/cubit/task_cubit.dart';
 
 
 @RoutePage()
@@ -10,7 +13,7 @@ class TaskScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => TaskCubit(HiveTaskRepository()),
+      create: (_) => TaskCubit(TaskRepository()),
       child: Scaffold(
         appBar: AppBar(title: Text("Gestionnaire de tâches")),
         body: Column(
@@ -26,8 +29,8 @@ class TaskScreen extends StatelessWidget {
                     itemBuilder: (_, index) {
                       final task = tasks[index];
                       return ListTile(
-                        title: Text(task.title),
-                        subtitle: Text("${task.priority.name} - ${task.status.name}"),
+                        title: Text(task.title ?? "Inconnu"),
+                        subtitle: Text("${task.priority?.name} - ${task.status?.name}"),
                       );
                     },
                   );
@@ -48,16 +51,16 @@ class FilterWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        DropdownButton<TaskStatus>(
+        DropdownButton<TaskEntityStatus>(
           hint: Text("Statut"),
-          items: TaskStatus.values
+          items: TaskEntityStatus.values
               .map((e) => DropdownMenuItem(value: e, child: Text(e.name)))
               .toList(),
           onChanged: (value) => context.read<TaskCubit>().filter(status: value),
         ),
-        DropdownButton<TaskPriority>(
+        DropdownButton<TaskEntityPriority>(
           hint: Text("Priorité"),
-          items: TaskPriority.values
+          items: TaskEntityPriority.values
               .map((e) => DropdownMenuItem(value: e, child: Text(e.name)))
               .toList(),
           onChanged: (value) => context.read<TaskCubit>().filter(priority: value),
